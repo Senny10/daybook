@@ -40,7 +40,7 @@ Full architecture documentation with diagrams:
 
 ### Prerequisites
 
-- JDK 17+ (currently using JDK 23)
+- JDK 21 (currently using JDK 23)
 - Docker Desktop (for PostgreSQL)
 - Node.js 20+ (for frontend, later)
 
