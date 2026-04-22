@@ -122,3 +122,78 @@ within code."*
 - Domain model design (Account, Transaction, Entry) — next session
 - Remove temporary database auto-configuration exclusion once
   PostgreSQL is running
+---
+
+## Day 3 — 2026-04-22
+
+### What I did
+- Set up PostgreSQL 16 using Docker Compose with credentials
+  managed via environment variables
+- Created three JPA entities: Account, Transaction, and Entry
+- Created two enum classes: AccountType (ASSET, LIABILITY, EQUITY,
+  REVENUE, EXPENSE) and EntryType (DEBIT, CREDIT)
+- Used BigDecimal instead of Double for monetary amounts — exact
+  decimal arithmetic, no floating-point errors
+- Established database relationships:
+  - Entry has ManyToOne relationship to Transaction
+  - Entry has ManyToOne relationship to Account
+  - Transaction has OneToMany relationship to Entries
+- Verified Hibernate created all three tables by inspecting
+  PostgreSQL directly via psql
+- Independently identified credential exposure risk before
+  committing to the public repo — replaced hardcoded passwords
+  with environment variables and added .env to .gitignore
+- Learned that deleting an Account with existing Entries fails
+  because PostgreSQL enforces referential integrity via foreign
+  key constraints at the database level
+- Confirmed full stack works: Docker (PostgreSQL) → Spring Boot
+  (Hibernate) → REST endpoint
+
+### What this demonstrates (framework mapping)
+
+**Secure coding — Mid**
+*"Regularly applies secure coding best practices and identifies
+security flaws in code reviews."*
+- Evidence: Independently identified credential exposure risk
+  before committing. Implemented .env pattern with .env.example
+  and explicit .gitignore entries. Documented decision in ADR-004.
+
+**Architecture — Mid**
+*"Can design simple architectures for basic projects."*
+- Evidence: Designed three-entity domain model (Account,
+  Transaction, Entry) correctly implementing double-entry
+  bookkeeping relationships. Entity relationships enforce
+  the accounting model at the database level, not just
+  in application code.
+
+**Databases — Associate+**
+*"Understands basic database design principles such as tables,
+primary keys, foreign keys, and indexes."*
+- Evidence: Verified table structure in PostgreSQL directly —
+  confirmed primary keys, foreign keys, unique constraints,
+  and check constraints all created correctly from JPA entities.
+
+**Security & Compliance — Associate+**
+*"Understands basic security concepts such as authentication,
+authorisation, encryption, and secure coding practices."*
+- Evidence: Identified and mitigated credential exposure before
+  it became a real vulnerability. Applied industry-standard
+  .env pattern independently.
+
+### Honest gaps to flag
+- UUID vs Long ID trade-off — needed prompting to think about
+  the security implications of sequential IDs. ADR-003 documents
+  the decision and future mitigation.
+- Balance calculation logic — understand the concept (DEBIT minus
+  CREDIT depends on account type) but haven't written the code yet.
+- Tired by end of session — evidence log and ADR-004 written with
+  assistance rather than independently. Will demonstrate independent
+  ADR writing in a future session.
+
+### Decisions still open
+- ADR-003: UUID vs Long — accepted Long for now, UUID public ID
+  mitigation planned for future iteration
+- ADR-004: Credential management — accepted, .env pattern in place
+- Repository layer — next session
+- Service layer validation (debits must equal credits) — next session
+- First real CRUD endpoints — next session
