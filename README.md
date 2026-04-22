@@ -52,14 +52,20 @@ Full architecture documentation with diagrams:
 - [x] Architecture design and documentation
 - [x] ADR-001: Backend stack decision (Kotlin + Spring Boot)
 - [x] ADR-002: Monorepo structure
+- [x] ADR-003: Entity ID strategy (Long vs UUID)
+- [x] ADR-004: Credential management (.env pattern)
+- [x] Spring Boot project setup
+- [x] First API endpoint (GET /api/hello)
+- [x] PostgreSQL setup via Docker
+- [x] Domain model: Account, Transaction, Entry entities
 
 ### In Progress
-- [ ] Spring Boot project setup
-- [ ] First API endpoint
+- [ ] Repository layer (CRUD operations)
+- [ ] Service layer (double-entry validation)
 
 ### Planned
-- [ ] Domain model (Accounts, Transactions, Entries)
-- [ ] Double-entry validation
+- [ ] First real CRUD endpoints
+- [ ] Double-entry validation (debits must equal credits)
 - [ ] JWT authentication + RBAC
 - [ ] React frontend
 - [ ] AWS deployment via Terraform
