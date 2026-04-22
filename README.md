@@ -78,7 +78,8 @@ All significant technical decisions are documented as ADRs:
 |---|---|---|
 | [001](docs/adr/001-backend-stack.md) | Use Kotlin and Spring Boot | Accepted |
 | [002](docs/adr/002-monorepo.md) | Monorepo structure | Accepted |
-
+| [003](docs/adr/003-entity-ids.md) | Entity ID strategy (Long vs UUID) | Accepted |
+| [004](docs/adr/004-credential-management.md) | Credential management (.env pattern) | Accepted |
 ## License
 
 [MIT](LICENSE)
