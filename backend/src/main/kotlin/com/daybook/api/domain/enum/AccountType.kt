@@ -5,5 +5,5 @@ enum class AccountType {
     LIABILITY,
     EQUITY,
     REVENUE,
-    EXPENSE
+    EXPENSE,
 }

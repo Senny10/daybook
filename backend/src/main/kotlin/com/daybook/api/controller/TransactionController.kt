@@ -1,0 +1,35 @@
+package com.daybook.api.controller
+
+import com.daybook.api.dto.request.CreateTransactionRequest
+import com.daybook.api.dto.response.TransactionResponse
+import com.daybook.api.service.LedgerService
+import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.*
+
+@RestController
+@RequestMapping("/api/transactions")
+class TransactionController(
+    private val ledgerService: LedgerService,
+) {
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    fun postTransaction(
+        @RequestBody request: CreateTransactionRequest,
+    ): TransactionResponse {
+        val transaction =
+            ledgerService.postTransaction(
+                date = request.date,
+                description = request.description,
+                reference = request.reference,
+                entryRequests =
+                    request.entries.map {
+                        LedgerService.EntryRequest(
+                            accountId = it.accountId,
+                            amount = it.amount,
+                            type = it.type,
+                        )
+                    },
+            )
+        return TransactionResponse.from(transaction)
+    }
+}
