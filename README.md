@@ -58,17 +58,21 @@ Full architecture documentation with diagrams:
 - [x] First API endpoint (GET /api/hello)
 - [x] PostgreSQL setup via Docker
 - [x] Domain model: Account, Transaction, Entry entities
+- [x] Repository layer (Spring Data JPA)
+- [x] Service layer with double-entry validation rules
+- [x] REST endpoints: accounts and transactions
+- [x] Global error handling (400/500)
+- [x] First TDD red-green-refactor cycle (LedgerServiceTest)
 
 ### In Progress
-- [ ] Repository layer (CRUD operations)
-- [ ] Service layer (double-entry validation)
+- [ ] Input validation with @Valid and Bean Validation
+- [ ] Integration tests with @DataJpaTest
 
 ### Planned
-- [ ] First real CRUD endpoints
-- [ ] Double-entry validation (debits must equal credits)
 - [ ] JWT authentication + RBAC
 - [ ] React frontend
 - [ ] AWS deployment via Terraform
+- [ ] CI/CD pipeline
 
 ## Architecture Decision Records
 

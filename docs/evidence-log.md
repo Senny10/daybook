@@ -197,3 +197,92 @@ authorisation, encryption, and secure coding practices."*
 - Repository layer — next session
 - Service layer validation (debits must equal credits) — next session
 - First real CRUD endpoints — next session
+---
+
+## Day 4 — 2026-04-23
+
+### What I did
+- Created Repository layer: AccountRepository, TransactionRepository,
+  EntryRepository using Spring Data JPA
+- Learned that Spring Data JPA generates query implementations
+  automatically from method names (e.g. findByName → WHERE name = ?)
+- Created Service layer: AccountService and LedgerService
+- Implemented five business validation rules in LedgerService:
+  - Must have at least two entries
+  - Must have at least one DEBIT and one CREDIT entry
+  - Debits must equal credits
+  - Reference must be unique
+  - All amounts must be positive
+- Created DTOs (Data Transfer Objects) to decouple the API from
+  the domain model — separate request/response objects for each endpoint
+- Created AccountController and TransactionController with endpoints:
+  - POST /api/accounts
+  - GET /api/accounts
+  - GET /api/accounts/{id}
+  - GET /api/accounts/{id}/balance
+  - POST /api/transactions
+- Added GlobalExceptionHandler — returns HTTP 400 for business rule
+  violations and HTTP 500 for unexpected errors
+- Completed a full TDD red-green-refactor cycle:
+  - RED: wrote three failing tests for entry type validation
+  - GREEN: implemented validateEntryTypes() to make tests pass
+  - REFACTOR: extracted validation into named private methods
+- Verified double-entry validation works end-to-end via curl
+- Hit a Mockito/JDK 23 compatibility issue with JPA lazy-loading
+  proxies on the happy path test — made a pragmatic decision to
+  defer to @DataJpaTest integration test in a later session
+
+### What this demonstrates (framework mapping)
+
+**Automated Testing & Refactoring — Mid**
+*"Writes comprehensive unit tests... regularly uses red-green-refactor
+cycle to ensure code is maintainable and robust."*
+- Evidence: LedgerServiceTest.kt — three unit tests written before
+  implementation. validateEntryTypes() written to make failing tests
+  pass. Full red-green-refactor cycle documented and committed.
+
+**Secure Coding — Mid**
+*"Can implement role-based access control (RBAC) and secure API
+authentication mechanisms."*
+- Evidence: Not yet — JWT/RBAC planned for Week 5. Current session
+  established the endpoint structure that security will wrap.
+
+**Architecture — Mid**
+*"Can design simple architectures for basic projects."*
+- Evidence: Full layered architecture now implemented and working —
+  Controller → Service → Repository → Database. Each layer has
+  exactly one responsibility. DTOs enforce clean separation between
+  API contracts and domain model.
+
+**APIs and Integration — Associate+**
+*"Can independently consume and integrate with basic APIs."*
+- Evidence: Five REST endpoints built and verified via curl. Proper
+  HTTP status codes (201 Created, 400 Bad Request, 500 Internal
+  Server Error) returned consistently via GlobalExceptionHandler.
+
+**Databases — Mid**
+*"Has a solid understanding of database design, optimisation, and
+integration into applications."*
+- Evidence: Custom @Query using JPQL for balance calculation.
+  Repository layer correctly separates data access from business
+  logic. Foreign key constraints verified working in PostgreSQL.
+
+### Honest gaps to flag
+- Happy path unit test blocked by Mockito/JDK 23 compatibility
+  issue with JPA lazy-loading proxies. Root cause identified —
+  deferred to integration test session rather than fighting
+  framework incompatibility indefinitely.
+- TDD cycle was retrofitted — service layer was written before
+  tests in the initial pass. One genuine red-green-refactor cycle
+  completed for validateEntryTypes(). Will apply TDD from the
+  start in future features.
+- @Transactional behaviour not yet verified under failure
+  conditions — rollback works in theory, needs integration test
+  to confirm.
+
+### Decisions still open
+- JWT authentication + RBAC — Week 5
+- Integration tests with @DataJpaTest + H2 — next session
+- Input validation with @Valid and Bean Validation — next session
+- React frontend — Month 2
+- AWS deployment via Terraform — Month 3
