@@ -5,6 +5,7 @@ import com.daybook.api.dto.response.AccountResponse
 import com.daybook.api.dto.response.BalanceResponse
 import com.daybook.api.service.AccountService
 import com.daybook.api.service.LedgerService
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
@@ -17,14 +18,13 @@ class AccountController(
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun createAccount(
-        @RequestBody request: CreateAccountRequest,
+        @Valid @RequestBody request: CreateAccountRequest,
     ): AccountResponse {
-        val account =
-            accountService.createAccount(
-                name = request.name,
-                type = request.type,
-                description = request.description,
-            )
+        val account = accountService.createAccount(
+            name = request.name,
+            type = request.type,
+            description = request.description
+        )
         return AccountResponse.from(account)
     }
 

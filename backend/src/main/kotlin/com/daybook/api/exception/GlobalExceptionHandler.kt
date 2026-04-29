@@ -2,6 +2,7 @@ package com.daybook.api.exception
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import java.time.LocalDateTime
@@ -47,4 +48,39 @@ class GlobalExceptionHandler {
                     path = request.requestURI,
                 ),
             )
+
+    @ExceptionHandler(MethodArgumentNotValidException::class)
+    fun handleValidationErrors(
+        ex: MethodArgumentNotValidException,
+        request: jakarta.servlet.http.HttpServletRequest
+    ): ResponseEntity<ErrorResponse> {
+        val errors = ex.bindingResult.fieldErrors
+            .map { "${it.field}: ${it.defaultMessage}" }
+            .sorted()
+
+        return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .body(ErrorResponse(
+                status = 400,
+                error = "Validation Failed",
+                message = errors.joinToString(", "),
+                path = request.requestURI
+            ))
+    }
+
+    @ExceptionHandler(org.springframework.http.converter.HttpMessageNotReadableException::class)
+    fun handleMessageNotReadable(
+        ex: org.springframework.http.converter.HttpMessageNotReadableException,
+        request: jakarta.servlet.http.HttpServletRequest
+    ): ResponseEntity<ErrorResponse> {
+        return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .body(ErrorResponse(
+                status = 400,
+                error = "Bad Request",
+                message = "Request body is missing or contains invalid values. " +
+                        "Check all required fields are present and correctly typed.",
+                path = request.requestURI
+            ))
+    }
 }
