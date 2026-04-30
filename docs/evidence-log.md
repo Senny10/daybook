@@ -286,3 +286,77 @@ integration into applications."*
 - Input validation with @Valid and Bean Validation — next session
 - React frontend — Month 2
 - AWS deployment via Terraform — Month 3
+---
+
+## Day 5 — 2026-04-30
+
+### What I did
+- Fixed local development environment — configured IntelliJ EnvFile
+  plugin to load .env file automatically for run configurations
+- Added Bean Validation to all request DTOs using
+  spring-boot-starter-validation:
+  - CreateAccountRequest: @NotBlank, @Size on name; @NotNull on type
+  - CreateTransactionRequest: @NotNull on date; @NotBlank on
+    description and reference; @Valid cascade on entries
+  - EntryRequest: @Positive on accountId; @DecimalMin and @Digits
+    on amount; @NotNull on type
+- Added @Valid to AccountController and TransactionController
+- Added two new exception handlers to GlobalExceptionHandler:
+  - MethodArgumentNotValidException → 400 with all field errors
+  - HttpMessageNotReadableException → 400 for missing/invalid fields
+- Added H2 in-memory database for test isolation
+- Created src/test/resources/application.properties to configure
+  H2 for test runs
+- Wrote 5 integration tests in AccountRepositoryTest using
+  @DataJpaTest:
+  - findByName: found and not found cases
+  - existsByName: true and false cases
+  - findByType: filters correctly by account type
+  - sumAmountByAccountIdAndType: custom @Query verified correct
+- All 9 tests passing: 1 context, 5 repository, 3 service (100%)
+- Cleaned up invalid account (blank name) that was created before
+  validation was added
+
+### What this demonstrates (framework mapping)
+
+**Automated Testing & Refactoring — Mid**
+*"Writes comprehensive unit tests and integration tests."*
+- Evidence: 9 tests passing across 3 test classes. Mix of unit
+  tests (LedgerServiceTest — no database) and integration tests
+  (AccountRepositoryTest — H2 in-memory). Test report screenshot
+  saved showing 100% pass rate.
+
+**Secure Coding — Mid**
+*"Regularly applies secure coding best practices."*
+- Evidence: Input validation added to all endpoints — blank names,
+  missing required fields, invalid amounts all rejected with 400
+  before reaching the service layer. Validation is the first line
+  of defence against malformed data.
+
+**APIs and Integration — Associate+**
+*"Can independently consume and integrate with basic APIs."*
+- Evidence: All five endpoints now validate input correctly and
+  return consistent, structured error responses with specific
+  field-level messages.
+
+**Working in teams / managing documentation — Associate+**
+*"Understands the importance of managing documentation around
+and within code."*
+- Evidence: Configured EnvFile plugin and documented the approach
+  so any developer cloning the repo can follow the same setup
+  using .env.example.
+
+### Honest gaps to flag
+- H2Dialect warning in test output — removed explicit dialect
+  setting from test application.properties as H2 auto-detects it
+- Test report shows ApiApplicationTests with 1 test — this is
+  Spring Boot's generated context load test, not something I wrote
+- Evidence log and README updated with assistance to preserve
+  session time — will aim to write independently in future sessions
+
+### Decisions still open
+- AccountService unit tests — Day 6
+- Controller tests with @WebMvcTest — Day 6
+- JWT authentication + RBAC — Week 5
+- React frontend — Month 2
+- AWS deployment via Terraform — Month 3

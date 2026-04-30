@@ -63,10 +63,13 @@ Full architecture documentation with diagrams:
 - [x] REST endpoints: accounts and transactions
 - [x] Global error handling (400/500)
 - [x] First TDD red-green-refactor cycle (LedgerServiceTest)
+- [x] Input validation with Bean Validation (@Valid, @NotBlank etc.)
+- [x] Integration tests with @DataJpaTest and H2
+- [x] 9 tests passing — 100% success rate
 
 ### In Progress
-- [ ] Input validation with @Valid and Bean Validation
-- [ ] Integration tests with @DataJpaTest
+- [ ] AccountService unit tests
+- [ ] Controller tests with @WebMvcTest
 
 ### Planned
 - [ ] JWT authentication + RBAC
