@@ -423,3 +423,62 @@ all layers of the application."*
 - JWT authentication + RBAC — Week 5
 - React frontend — Month 2
 - AWS deployment via Terraform — Month 3
+---
+## Day 7 — 2026-04-30
+
+### What I did
+- Wrote 5 controller tests for TransactionController
+  (TransactionControllerTest):
+  - POST /api/transactions: returns 201 with created transaction
+  - POST /api/transactions: returns 400 when description is blank
+  - POST /api/transactions: returns 400 when debits != credits
+  - POST /api/transactions: returns 400 when entries list is empty
+  - POST /api/transactions: returns 400 when reference already exists
+- Full test suite now 27 tests across 6 classes, 100% passing
+- Built three financial reporting endpoints:
+  - GET /api/reports/trial-balance — all accounts with debit/credit
+    balances, isBalanced flag verifies double-entry integrity
+  - GET /api/reports/profit-and-loss — Revenue minus Expenses =
+    netIncome, isProfit flag
+  - GET /api/reports/balance-sheet — Assets vs Liabilities + Equity,
+    isBalanced flag
+- Verified all three reports against real data from Day 4 transaction
+- Balance Sheet correctly reports isBalanced: false — no Equity
+  accounts in current data, accurate reporting not a bug
+- Understood closing entries concept — Revenue/Expense balances
+  flow into Equity at period end (planned for later session)
+
+### What this demonstrates (framework mapping)
+
+**Automated Testing — Mid**
+*"Writes comprehensive unit and integration tests."*
+- Evidence: Test suite complete — 27 tests, 6 classes, all layers,
+  100% passing. Growth documented: 9 → 15 → 22 → 27 across Days 5-7.
+  Three test report screenshots saved showing consistent progress.
+
+**Architecture — Mid**
+*"Can design simple architectures for basic projects."*
+- Evidence: Reporting layer added cleanly without touching existing
+  layers. ReportingService reads from AccountRepository and
+  EntryRepository — correct separation of concerns maintained.
+
+**Domain Knowledge — Associate+**
+*"Applies domain knowledge to technical decisions."*
+- Evidence: Trial Balance, P&L, and Balance Sheet correctly implement
+  real accounting concepts. isBalanced flags detect data integrity
+  issues. Balance Sheet accurately identifies missing Equity accounts
+  rather than hiding the gap.
+
+### Honest gaps to flag
+- ReportingController has no tests yet — deferred to next session
+- Balance Sheet isBalanced: false in current data — expected,
+  needs Equity accounts and closing entries to resolve fully
+- Evidence log and README written with assistance to preserve
+  session time
+
+### Decisions still open
+- ReportingController tests — next session
+- Closing entries implementation — later session
+- JWT authentication + RBAC — Week 5
+- React frontend — Month 2
+- AWS deployment via Terraform — Month 3

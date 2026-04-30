@@ -67,13 +67,16 @@ Full architecture documentation with diagrams:
 - [x] Integration tests with @DataJpaTest and H2
 - [x] AccountService unit tests (6 tests)
 - [x] AccountController tests with @WebMvcTest (7 tests)
-- [x] 22 tests passing — 100% success rate across all layers
+- [x] TransactionController tests (5 tests)
+- [x] 27 tests passing — 100% success rate across all layers
+- [x] Reporting endpoints: Trial Balance, P&L, Balance Sheet
 
 ### In Progress
-- [ ] TransactionController tests
+- [ ] ReportingController tests
 - [ ] JWT authentication + RBAC
 
 ### Planned
+- [ ] Closing entries implementation
 - [ ] React frontend
 - [ ] AWS deployment via Terraform
 - [ ] CI/CD pipeline
