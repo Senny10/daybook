@@ -65,17 +65,19 @@ Full architecture documentation with diagrams:
 - [x] First TDD red-green-refactor cycle (LedgerServiceTest)
 - [x] Input validation with Bean Validation (@Valid, @NotBlank etc.)
 - [x] Integration tests with @DataJpaTest and H2
-- [x] 9 tests passing — 100% success rate
+- [x] AccountService unit tests (6 tests)
+- [x] AccountController tests with @WebMvcTest (7 tests)
+- [x] 22 tests passing — 100% success rate across all layers
 
 ### In Progress
-- [ ] AccountService unit tests
-- [ ] Controller tests with @WebMvcTest
+- [ ] TransactionController tests
+- [ ] JWT authentication + RBAC
 
 ### Planned
-- [ ] JWT authentication + RBAC
 - [ ] React frontend
 - [ ] AWS deployment via Terraform
 - [ ] CI/CD pipeline
+- [ ] AWS Cloud Practitioner certification study
 
 ## Architecture Decision Records
 

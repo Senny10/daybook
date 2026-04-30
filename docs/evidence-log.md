@@ -360,3 +360,66 @@ and within code."*
 - JWT authentication + RBAC — Week 5
 - React frontend — Month 2
 - AWS deployment via Terraform — Month 3
+---
+
+## Day 6 — 2026-04-30
+
+### What I did
+- Wrote 6 unit tests for AccountService (AccountServiceTest):
+  - createAccount happy path with doReturn pattern for save stub
+  - createAccount duplicate name throws with correct message
+  - verify save never called on duplicate (negative assertion)
+  - getAccountById returns account when found
+  - getAccountById throws when not found (id in error message)
+  - getAllAccounts returns full list
+  - getAccountsByType filters correctly
+- Wrote 7 controller tests for AccountController (AccountControllerTest):
+  - GET /api/accounts returns 200 with correct JSON structure
+  - POST /api/accounts returns 201 with created account
+  - POST /api/accounts returns 400 on blank name (validation layer)
+  - POST /api/accounts returns 400 on duplicate name (service layer)
+  - GET /api/accounts/{id} returns 200 with correct account
+  - GET /api/accounts/{id} returns 400 when not found
+  - GET /api/accounts/{id}/balance returns 200 with balance
+- Fixed deprecated @MockBean → @MockitoBean (Spring Boot 3.4.x)
+  by accepting IntelliJ's suggested import path over my initial guess
+- Full test suite: 22 tests across 5 classes, 100% passing
+- Learned that @DataJpaTest > @WebMvcTest > MockitoExtension in terms
+  of Spring context loaded — less context = faster test
+
+### What this demonstrates (framework mapping)
+
+**Automated Testing & Refactoring — Mid**
+*"Writes comprehensive unit tests and integration tests across
+all layers of the application."*
+- Evidence: 22 tests spanning Controller (@WebMvcTest), Service
+  (MockitoExtension), and Repository (@DataJpaTest) layers.
+  Test report screenshots saved showing 9 → 15 → 22 test growth
+  across Days 5-6. Mix of positive and negative assertions.
+  verify() used to assert save() never called on invalid requests.
+
+**Secure Coding — Associate+**
+*"Applies secure coding best practices."*
+- Evidence: Controller tests explicitly verify that validation
+  errors return 400 (not 500) — confirming the security boundary
+  between user error and system error is correctly implemented.
+
+**APIs and Integration — Mid**
+*"Understands and can implement RESTful API design principles."*
+- Evidence: Controller tests verify correct HTTP status codes
+  (200, 201, 400) for each scenario — demonstrating understanding
+  of REST conventions beyond just making endpoints work.
+
+### Honest gaps to flag
+- TransactionController has no tests yet — only AccountController
+  covered. Will add in a future session.
+- doReturn pattern required for save() stubs due to Mockito/JDK 23
+  compatibility — noted consistently across sessions.
+- Evidence log and README written with assistance to preserve
+  session time.
+
+### Decisions still open
+- TransactionController tests — next session
+- JWT authentication + RBAC — Week 5
+- React frontend — Month 2
+- AWS deployment via Terraform — Month 3
