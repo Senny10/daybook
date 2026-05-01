@@ -482,3 +482,55 @@ all layers of the application."*
 - JWT authentication + RBAC — Week 5
 - React frontend — Month 2
 - AWS deployment via Terraform — Month 3
+---
+
+## Day 8 — 2026-05-01
+
+### What I did
+- Added ReportingController tests (3 tests) — closed last testing gap
+- Full test suite: 30 tests across 4 packages, 100% passing
+- Implemented JWT authentication and RBAC with Spring Security:
+  - Added spring-boot-starter-security, jjwt-api, jjwt-impl,
+    jjwt-jackson dependencies
+  - Created User entity with UserRole enum (USER, ADMIN)
+  - Created UserRepository with findByUsername and existsByUsername
+  - Created JwtService — generates and validates JWT tokens using
+    HMAC-SHA, reads secret from environment variable
+  - Created JwtAuthenticationFilter — validates JWT on every request,
+    sets Spring Security context using
+    RequestAttributeSecurityContextRepository (required for
+    Spring Security 6)
+  - Created DaybookUserDetailsService — loads users from PostgreSQL
+  - Created SecurityConfig — stateless session, CSRF disabled,
+    endpoint protection rules, BCrypt password encoder
+  - Created AuthService — register (BCrypt hash) and login (JWT)
+  - Created AuthController — POST /api/auth/register and login
+  - Created RegisterRequest, LoginRequest, AuthResponse DTOs
+  - Added JWT_SECRET and JWT_EXPIRATION to .env and .env.example
+- Wrote ADR-005 documenting JWT vs session vs OAuth2 vs API keys
+- Verified complete auth flow end-to-end:
+  - No token → 401 Unauthorized
+  - USER token + POST /api/accounts → 403 Forbidden (RBAC working)
+  - ADMIN token + POST /api/accounts → 201 Created
+  - ADMIN token + GET /api/accounts → 200 OK
+- Debugged Spring Security 6 context persistence issue —
+  RequestAttributeSecurityContextRepository required to persist
+  authentication through the filter chain
+
+### What this demonstrates (framework mapping)
+
+**Secure Coding — Mid**
+*"Can implement role-based access control (RBAC) and secure API
+authentication mechanisms (e.g., OAuth, JWT) independently
+in a project."*
+- Evidence: Working JWT authentication and RBAC in a real codebase.
+  Two roles (USER, ADMIN) with different permissions enforced by
+  Spring Security. Passwords BCrypt-hashed. JWT secret in
+  environment variables. ADR-005 documents the design decisions
+  and trade-offs considered. Verified end-to-end with curl.
+
+**Architecture — Mid**
+*"Can design simple architectures for basic projects."*
+- Evidence: Security layer added cleanly as a separate package
+  (com.daybook.api.security) without touching existing business
+  logic. Filter chain, service, and config separate

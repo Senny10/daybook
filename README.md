@@ -54,6 +54,7 @@ Full architecture documentation with diagrams:
 - [x] ADR-002: Monorepo structure
 - [x] ADR-003: Entity ID strategy (Long vs UUID)
 - [x] ADR-004: Credential management (.env pattern)
+- [x] ADR-005: JWT authentication and RBAC strategy
 - [x] Spring Boot project setup
 - [x] First API endpoint (GET /api/hello)
 - [x] PostgreSQL setup via Docker
@@ -68,12 +69,17 @@ Full architecture documentation with diagrams:
 - [x] AccountService unit tests (6 tests)
 - [x] AccountController tests with @WebMvcTest (7 tests)
 - [x] TransactionController tests (5 tests)
-- [x] 27 tests passing — 100% success rate across all layers
+- [x] ReportingController tests (3 tests)
+- [x] 30 tests passing — 100% success rate across all layers
 - [x] Reporting endpoints: Trial Balance, P&L, Balance Sheet
+- [x] JWT authentication with Spring Security
+- [x] RBAC: USER (read) and ADMIN (read + write) roles
+- [x] BCrypt password hashing
+- [x] Auth endpoints: POST /api/auth/register and /api/auth/login
 
 ### In Progress
-- [ ] ReportingController tests
-- [ ] JWT authentication + RBAC
+- [ ] Auth endpoint tests
+- [ ] Token refresh mechanism
 
 ### Planned
 - [ ] Closing entries implementation
