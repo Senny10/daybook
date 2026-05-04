@@ -1,5 +1,6 @@
 package com.daybook.api.controller
 
+import com.daybook.api.config.TestSecurityConfig
 import com.daybook.api.domain.model.Transaction
 import com.daybook.api.service.LedgerService
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -7,7 +8,9 @@ import org.junit.jupiter.api.Test
 import org.mockito.kotlin.any
 import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.context.annotation.Import
 import org.springframework.http.MediaType
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.web.servlet.MockMvc
@@ -16,6 +19,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import java.time.LocalDate
 
 @WebMvcTest(TransactionController::class)
+@AutoConfigureMockMvc(addFilters = false)
+@Import(TestSecurityConfig::class)
 class TransactionControllerTest {
 
     @Autowired
@@ -26,6 +31,12 @@ class TransactionControllerTest {
 
     @MockitoBean
     lateinit var ledgerService: LedgerService
+
+    @MockitoBean
+    lateinit var jwtService: com.daybook.api.security.JwtService
+
+    @MockitoBean
+    lateinit var daybookUserDetailsService: com.daybook.api.security.DaybookUserDetailsService
 
     @Test
     fun `POST transactions should return 201 with created transaction`() {
