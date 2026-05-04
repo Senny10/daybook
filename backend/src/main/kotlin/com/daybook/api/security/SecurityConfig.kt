@@ -40,6 +40,7 @@ class SecurityConfig(
                 auth
                     // Public endpoints — no auth required
                     .requestMatchers("/api/auth/**").permitAll()
+                    .requestMatchers("/api/config").permitAll()
 
                     // ADMIN only — write operations
                     .requestMatchers(HttpMethod.POST, "/api/accounts")

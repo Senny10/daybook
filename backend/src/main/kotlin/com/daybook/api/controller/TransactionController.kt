@@ -1,6 +1,7 @@
 package com.daybook.api.controller
 
 import com.daybook.api.dto.request.CreateTransactionRequest
+import com.daybook.api.dto.response.TransactionDetailResponse
 import com.daybook.api.dto.response.TransactionResponse
 import com.daybook.api.service.LedgerService
 import jakarta.validation.Valid
@@ -31,4 +32,17 @@ class TransactionController(
         )
         return TransactionResponse.from(transaction)
     }
+
+    @GetMapping
+    fun getAllTransactions(): List<TransactionDetailResponse> =
+        ledgerService.getAllTransactions()
+            .map { TransactionDetailResponse.from(it) }
+
+    @GetMapping("/{id}")
+    fun getTransactionById(
+        @PathVariable id: Long
+    ): TransactionDetailResponse =
+        TransactionDetailResponse.from(
+            ledgerService.getTransactionById(id)
+        )
 }

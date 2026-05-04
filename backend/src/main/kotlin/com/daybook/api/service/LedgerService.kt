@@ -156,4 +156,13 @@ class LedgerService(
             -> credits - debits
         }
     }
+
+    fun getAllTransactions(): List<Transaction> =
+        transactionRepository.findAllWithEntries()
+
+    fun getTransactionById(id: Long): Transaction =
+        transactionRepository.findByIdWithEntries(id)
+            ?: throw IllegalArgumentException(
+                "Transaction not found with id: $id"
+            )
 }

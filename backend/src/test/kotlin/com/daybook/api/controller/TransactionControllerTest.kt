@@ -16,6 +16,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
+import java.math.BigDecimal
 import java.time.LocalDate
 
 @WebMvcTest(TransactionController::class)
@@ -165,5 +166,66 @@ class TransactionControllerTest {
             .andExpect(status().isBadRequest)
             .andExpect(jsonPath("$.message")
                 .value("Transaction with reference 'TXN-001' already exists"))
+    }
+
+    @Test
+    fun `GET transactions should return 200 with list of transactions`() {
+        val entries = listOf(
+            com.daybook.api.dto.response.EntryResponse(
+                id = 1L,
+                accountId = 1L,
+                accountName = "Cash",
+                amount = BigDecimal("500.00"),
+                type = com.daybook.api.domain.enum.EntryType.DEBIT
+            ),
+            com.daybook.api.dto.response.EntryResponse(
+                id = 2L,
+                accountId = 2L,
+                accountName = "Revenue",
+                amount = BigDecimal("500.00"),
+                type = com.daybook.api.domain.enum.EntryType.CREDIT
+            )
+        )
+        val transaction = com.daybook.api.domain.model.Transaction(
+            id = 1L,
+            date = java.time.LocalDate.of(2026, 4, 23),
+            description = "Received payment",
+            reference = "TXN-001"
+        )
+        whenever(ledgerService.getAllTransactions())
+            .thenReturn(listOf(transaction))
+
+        mockMvc.perform(get("/api/transactions"))
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.length()").value(1))
+            .andExpect(jsonPath("$[0].reference").value("TXN-001"))
+    }
+
+    @Test
+    fun `GET transactions by id should return 200 with transaction detail`() {
+        val transaction = com.daybook.api.domain.model.Transaction(
+            id = 1L,
+            date = java.time.LocalDate.of(2026, 4, 23),
+            description = "Received payment",
+            reference = "TXN-001"
+        )
+        whenever(ledgerService.getTransactionById(1L))
+            .thenReturn(transaction)
+
+        mockMvc.perform(get("/api/transactions/1"))
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.id").value(1))
+            .andExpect(jsonPath("$.reference").value("TXN-001"))
+    }
+
+    @Test
+    fun `GET transactions by id should return 400 when not found`() {
+        whenever(ledgerService.getTransactionById(99L))
+            .thenThrow(IllegalArgumentException("Transaction not found with id: 99"))
+
+        mockMvc.perform(get("/api/transactions/99"))
+            .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.message")
+                .value("Transaction not found with id: 99"))
     }
 }
