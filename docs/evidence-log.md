@@ -534,3 +534,75 @@ in a project."*
 - Evidence: Security layer added cleanly as a separate package
   (com.daybook.api.security) without touching existing business
   logic. Filter chain, service, and config separate
+---
+
+## Day 9 — 2026-05-04
+
+### What I did
+- Fixed 16 controller tests broken by Spring Security addition:
+  - Created TestSecurityConfig to permit all requests in test context
+  - Added @MockitoBean for JwtService and DaybookUserDetailsService
+  - Added JWT properties to test application.properties
+  - Added @ActiveProfiles("test") to ApiApplicationTests
+- Added frontend plan to docs/frontend-plan.md — realigned from
+  personal finance app to double-entry bookkeeping tool
+- Added three new backend endpoints to support the frontend:
+  - GET /api/transactions — lists all transactions with entries
+    using LEFT JOIN FETCH to avoid N+1 problem
+  - GET /api/transactions/{id} — single transaction with entries
+  - GET /api/config — feature flags (no auth required)
+- Created EntryResponse and TransactionDetailResponse DTOs
+- Added findAllWithEntries() and findByIdWithEntries() to
+  TransactionRepository using JPQL JOIN FETCH
+- Added configurable registration property
+  (daybook.registration.public)
+- Fixed ConfigController @Value injection issue —
+  property injection pattern required for Boolean @Value in Kotlin
+- Test suite: 34 tests, 100% passing (4 new tests added)
+- Learned about the N+1 problem — one query to get N records,
+  then N more queries for related data; solved with JOIN FETCH
+
+### What this demonstrates (framework mapping)
+
+**Automated Testing — Mid**
+*"Writes comprehensive unit and integration tests."*
+- Evidence: Test suite grew from 30 to 34. Fixed 16 broken tests
+  after major architectural change (Spring Security). TestSecurityConfig
+  pattern established for reuse across all future controller tests.
+
+**Architecture — Mid**
+*"Can design simple architectures for basic projects."*
+- Evidence: N+1 problem identified and solved at the repository layer
+  using JPQL JOIN FETCH. Frontend plan written with deliberate scope
+  decisions documented (what we're building and why we cut certain
+  features).
+
+**APIs and Integration — Mid**
+*"Understands and can implement RESTful API design principles."*
+- Evidence: Three new endpoints follow existing REST conventions.
+  Config endpoint correctly identified as public (no auth).
+  TransactionDetailResponse includes nested EntryResponse — correct
+  representation of the domain relationship.
+
+**Secure Coding — Mid**
+*"Regularly applies secure coding best practices."*
+- Evidence: Configurable registration defaults to false (secure by
+  default). Config endpoint deliberately public — returns only
+  non-sensitive feature flags. JWT properties kept in environment
+  variables throughout.
+
+### Honest gaps to flag
+- Auth endpoint tests (register/login) still not written —
+  carried over from Day 8
+- Configurable registration backend logic not yet implemented —
+  currently register is always public regardless of flag
+- Evidence log and README written with assistance to preserve
+  session time
+
+### Decisions still open
+- Configurable registration enforcement in AuthService — Day 10
+- React frontend setup — Day 10
+- JWT authentication + RBAC frontend implementation — Day 10+
+- AWS deployment via Terraform — Month 3
+
+---

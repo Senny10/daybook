@@ -58,32 +58,30 @@ Full architecture documentation with diagrams:
 - [x] Spring Boot project setup
 - [x] First API endpoint (GET /api/hello)
 - [x] PostgreSQL setup via Docker
-- [x] Domain model: Account, Transaction, Entry entities
+- [x] Domain model: Account, Transaction, Entry, User entities
 - [x] Repository layer (Spring Data JPA)
 - [x] Service layer with double-entry validation rules
-- [x] REST endpoints: accounts and transactions
+- [x] REST endpoints: accounts, transactions, reporting, auth, config
 - [x] Global error handling (400/500)
 - [x] First TDD red-green-refactor cycle (LedgerServiceTest)
-- [x] Input validation with Bean Validation (@Valid, @NotBlank etc.)
+- [x] Input validation with Bean Validation
 - [x] Integration tests with @DataJpaTest and H2
-- [x] AccountService unit tests (6 tests)
-- [x] AccountController tests with @WebMvcTest (7 tests)
-- [x] TransactionController tests (5 tests)
-- [x] ReportingController tests (3 tests)
-- [x] 30 tests passing — 100% success rate across all layers
+- [x] 34 tests passing — 100% success rate across all layers
 - [x] Reporting endpoints: Trial Balance, P&L, Balance Sheet
 - [x] JWT authentication with Spring Security
 - [x] RBAC: USER (read) and ADMIN (read + write) roles
 - [x] BCrypt password hashing
-- [x] Auth endpoints: POST /api/auth/register and /api/auth/login
+- [x] Auth endpoints: register and login
+- [x] GET /api/transactions and GET /api/transactions/{id}
+- [x] GET /api/config — feature flags endpoint
+- [x] Frontend plan documented (docs/frontend-plan.md)
 
 ### In Progress
+- [ ] Configurable registration enforcement
 - [ ] Auth endpoint tests
-- [ ] Token refresh mechanism
 
 ### Planned
-- [ ] Closing entries implementation
-- [ ] React frontend
+- [ ] React frontend (10-12 sessions)
 - [ ] AWS deployment via Terraform
 - [ ] CI/CD pipeline
 - [ ] AWS Cloud Practitioner certification study
