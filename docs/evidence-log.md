@@ -606,3 +606,43 @@ in a project."*
 - AWS deployment via Terraform — Month 3
 
 ---
+## Days 10 & 11 — 2026-05-05
+
+### What I did
+- Enforced configurable registration in AuthService:
+  - REGISTRATION_PUBLIC=true → anyone can register
+  - REGISTRATION_PUBLIC=false → only ADMINs can register (403)
+- Wrote 7 auth endpoint tests (AuthControllerTest) — closed last
+  testing gap. Full backend test suite: 41 tests, 100% passing
+- Built React frontend foundation:
+  - Vite + TypeScript + Tailwind + Sky/Sun palette configured
+  - Login page with Zod validation, error handling, loading state
+  - AuthContext: JWT in localStorage, user state, role helpers
+  - Axios client with JWT request interceptor and 401 response
+    interceptor (auto-redirect to login on token expiry)
+  - ProtectedRoute: unauthenticated → /login, wrong role → /accounts
+  - Header: navigation, username/role display, role-based menu
+  - AppLayout: consistent page wrapper
+  - Accounts page: lists accounts with colour-coded type badges,
+    create form visible to ADMIN only (RBAC in UI)
+- Wrote ADR-006 (frontend stack), ADR-007 (state management),
+  ADR-008 (JWT storage strategy)
+- Verified full stack end-to-end in browser:
+  - Login → JWT stored → redirect to /accounts
+  - Real accounts from PostgreSQL displayed in React
+  - ADMIN role correctly shows admin-only UI elements
+
+### What this demonstrates (framework mapping)
+
+**Secure Coding — Mid**
+*"Can implement RBAC and secure API authentication independently."*
+- Evidence: RBAC implemented in both backend (Spring Security) AND
+  frontend (ProtectedRoute + conditional UI rendering). JWT stored
+  securely with localStorage, trade-off documented in ADR-008.
+  Configurable registration enforced server-side.
+
+**Architecture — Mid**
+*"Can design simple architectures for basic projects."*
+- Evidence: Frontend architecture mirrors backend layered approach:
+  api/ (data access) → contexts/ (state) → pages/ (presentation).
+  8
