@@ -7,6 +7,7 @@ import com.daybook.api.dto.request.RegisterRequest
 import com.daybook.api.dto.response.AuthResponse
 import com.daybook.api.repository.UserRepository
 import com.daybook.api.security.JwtService
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -19,8 +20,21 @@ class AuthService(
     private val jwtService: JwtService,
     private val authenticationManager: AuthenticationManager
 ) {
+    @Value("\${daybook.registration.public:false}")
+    private var publicRegistrationEnabled: Boolean = false
 
-    fun register(request: RegisterRequest): AuthResponse {
+    fun register(
+        request: RegisterRequest,
+        requesterRole: String? = null
+    ): AuthResponse {
+        // Enforce registration policy
+        if (!publicRegistrationEnabled && requesterRole != "ADMIN") {
+            throw org.springframework.security.access.AccessDeniedException(
+                "Public registration is disabled. " +
+                        "Only ADMINs can create users."
+            )
+        }
+
         if (userRepository.existsByUsername(request.username)) {
             throw IllegalArgumentException(
                 "Username '${request.username}' already exists"

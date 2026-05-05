@@ -83,4 +83,21 @@ class GlobalExceptionHandler {
                 path = request.requestURI
             ))
     }
+
+    @ExceptionHandler(
+        org.springframework.security.access.AccessDeniedException::class
+    )
+    fun handleAccessDenied(
+        ex: org.springframework.security.access.AccessDeniedException,
+        request: jakarta.servlet.http.HttpServletRequest
+    ): ResponseEntity<ErrorResponse> {
+        return ResponseEntity
+            .status(HttpStatus.FORBIDDEN)
+            .body(ErrorResponse(
+                status = 403,
+                error = "Forbidden",
+                message = ex.message ?: "Access denied",
+                path = request.requestURI
+            ))
+    }
 }

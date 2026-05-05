@@ -17,8 +17,17 @@ class AuthController(
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     fun register(
-        @Valid @RequestBody request: RegisterRequest
-    ): AuthResponse = authService.register(request)
+        @Valid @RequestBody request: RegisterRequest,
+        authentication: org.springframework.security.core.Authentication?
+    ): AuthResponse {
+        // Extract role from JWT if authenticated, null if public request
+        val requesterRole = authentication?.authorities
+            ?.firstOrNull()
+            ?.authority
+            ?.removePrefix("ROLE_")
+
+        return authService.register(request, requesterRole)
+    }
 
     @PostMapping("/login")
     fun login(
