@@ -645,4 +645,64 @@ in a project."*
 *"Can design simple architectures for basic projects."*
 - Evidence: Frontend architecture mirrors backend layered approach:
   api/ (data access) → contexts/ (state) → pages/ (presentation).
-  8
+
+---
+
+## Day 12 — 2026-05-06
+
+### What I did
+- Built Transactions page with search/filter and real-time count
+- Built New Transaction modal with:
+  - 2 entry rows by default, + Add entry for more
+  - Live balance indicator (red difference → green ✓ Balanced)
+  - Post Transaction button disabled until debits = credits
+  - Automatic list refresh after successful post (TanStack Query)
+- Built Reports page with three tabs:
+  - Trial Balance: account table, totals, isBalanced badge
+  - Profit & Loss: Revenue, Expenses, Net Income, isProfit badge
+  - Balance Sheet: Assets vs Liabilities + Equity, honest
+    "Incomplete data" warning when equity accounts missing
+- Created API clients: transactions.ts and reports.ts
+- Verified full double-entry flow end-to-end in browser:
+  - Posted £200 transaction via modal
+  - Trial Balance updated to £700 debits = £700 credits
+  - P&L shows £700 net income
+  - Balance Sheet correctly identifies missing equity accounts
+
+### What this demonstrates (framework mapping)
+
+**Architecture — Mid**
+*"Can design simple architectures for basic projects."*
+- Evidence: Frontend architecture mirrors backend — api/ layer
+  separates concerns cleanly. Modal component encapsulates all
+  transaction posting logic. Reports page uses tab pattern to
+  surface three distinct financial statements cleanly.
+
+**APIs and Integration — Mid**
+*"Can independently consume and integrate with basic APIs."*
+- Evidence: All Daybook API endpoints now consumed by React
+  frontend. TanStack Query handles caching, loading, and
+  cache invalidation automatically. Full stack verified
+  end-to-end with real data flowing from PostgreSQL through
+  Spring Boot to React.
+
+**Domain knowledge — Associate+**
+*"Applies domain knowledge to technical decisions."*
+- Evidence: Balance Sheet "Incomplete data" warning correctly
+  identifies missing equity accounts — not hidden or suppressed.
+  Trial Balance isBalanced flag surfaced prominently. Double-entry
+  rule enforced in UI (disabled submit) AND backend (validation).
+
+### Honest gaps to flag
+- Frontend tests not yet written (Vitest + RTL planned)
+- Balance indicator could show which side is heavier
+  (e.g. "£200 more in debits") — noted for polish week
+- Background images committed to repo — should be in
+  public/ not src/assets/ for optimal loading
+- Evidence log and README written with assistance
+
+### Decisions still open
+- Frontend tests — Day 13
+- Seed script — polish week
+- Background image implementation — polish week
+- AWS deployment via Terraform — Month 3

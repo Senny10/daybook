@@ -50,53 +50,23 @@ Full architecture documentation with diagrams:
 
 ### Done
 - [x] Architecture design and documentation
-- [x] ADR-001: Backend stack decision (Kotlin + Spring Boot)
-- [x] ADR-002: Monorepo structure
-- [x] ADR-003: Entity ID strategy (Long vs UUID)
-- [x] ADR-004: Credential management (.env pattern)
-- [x] ADR-005: JWT authentication and RBAC strategy
-- [x] ADR-006: Frontend stack (React + Vite + TypeScript + Tailwind)
-- [x] ADR-007: Frontend state management (TanStack Query + Context)
-- [x] ADR-008: JWT storage strategy (localStorage vs httpOnly cookie)
-- [x] Spring Boot project setup
-- [x] First API endpoint (GET /api/hello)
-- [x] PostgreSQL setup via Docker
-- [x] Domain model: Account, Transaction, Entry, User entities
-- [x] Repository layer (Spring Data JPA)
-- [x] Service layer with double-entry validation rules
-- [x] REST endpoints: accounts, transactions, reporting, auth, config
-- [x] Global error handling (400/500)
-- [x] First TDD red-green-refactor cycle (LedgerServiceTest)
-- [x] Input validation with Bean Validation
-- [x] Integration tests with @DataJpaTest and H2
-- [x] 41 tests passing — 100% success rate across all layers
-- [x] Reporting endpoints: Trial Balance, P&L, Balance Sheet
-- [x] JWT authentication with Spring Security
-- [x] RBAC: USER (read) and ADMIN (read + write) roles
-- [x] BCrypt password hashing
-- [x] Auth endpoints: register and login
-- [x] Configurable registration (feature flag)
-- [x] GET /api/transactions and GET /api/transactions/{id}
-- [x] GET /api/config — feature flags endpoint
-- [x] Frontend plan documented (docs/frontend-plan.md)
-- [x] React + Vite + TypeScript + Tailwind setup
-- [x] Login page — connected to backend, JWT auth working
-- [x] AuthContext — JWT storage, user state, role helpers
-- [x] ProtectedRoute — auth and role-based redirects
-- [x] Header with navigation and role-based menu
-- [x] Accounts page — list with type badges, create form (ADMIN only)
+- [x] ADR-001 through ADR-008
+- [x] Full backend: Spring Boot + PostgreSQL + Spring Security
+- [x] 41 tests passing — 100% success rate
+- [x] JWT authentication + RBAC (backend + frontend)
+- [x] React frontend: Login, Accounts, Transactions, Reports pages
+- [x] New Transaction modal with live double-entry balance indicator
+- [x] Financial reports: Trial Balance, P&L, Balance Sheet
 - [x] Full stack verified end-to-end in browser
 
 ### In Progress
-- [ ] Transactions page
-- [ ] New Transaction page (double-entry form)
-- [ ] Reports page
-
-### Planned
-- [ ] ADR-009: Configurable registration pattern
+- [ ] Frontend tests (Vitest + React Testing Library)
 - [ ] Seed script for demo data
-- [ ] Sky background with cloud effects (polish)
+
+### Planned (Polish Week)
+- [ ] Background images (paper-cut sky/sun design)
 - [ ] Loading skeletons
+- [ ] ADR-009: Configurable registration pattern
 - [ ] AWS deployment via Terraform
 - [ ] CI/CD pipeline
 - [ ] AWS Cloud Practitioner certification study
