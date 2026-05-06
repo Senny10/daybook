@@ -52,20 +52,22 @@ Full architecture documentation with diagrams:
 - [x] Architecture design and documentation
 - [x] ADR-001 through ADR-008
 - [x] Full backend: Spring Boot + PostgreSQL + Spring Security
-- [x] 41 tests passing — 100% success rate
+- [x] 41 backend tests — 100% passing
 - [x] JWT authentication + RBAC (backend + frontend)
 - [x] React frontend: Login, Accounts, Transactions, Reports pages
 - [x] New Transaction modal with live double-entry balance indicator
 - [x] Financial reports: Trial Balance, P&L, Balance Sheet
+- [x] Frontend tests: Vitest + RTL + MSW (11 tests, 100% passing)
+- [x] Total: 52 tests across full stack, 100% passing
 - [x] Full stack verified end-to-end in browser
 
 ### In Progress
-- [ ] Frontend tests (Vitest + React Testing Library)
 - [ ] Seed script for demo data
 
 ### Planned (Polish Week)
 - [ ] Background images (paper-cut sky/sun design)
 - [ ] Loading skeletons
+- [ ] More frontend tests
 - [ ] ADR-009: Configurable registration pattern
 - [ ] AWS deployment via Terraform
 - [ ] CI/CD pipeline

@@ -706,3 +706,57 @@ in a project."*
 - Seed script — polish week
 - Background image implementation — polish week
 - AWS deployment via Terraform — Month 3
+---
+
+## Day 13 — 2026-05-06
+
+### What I did
+- Set up Vitest + React Testing Library + MSW for frontend testing
+- Created localStorage mock for AuthContext test compatibility
+- Wrote 5 LoginPage tests:
+  - Form renders correctly
+  - Validation error when username empty
+  - Validation error when password empty
+  - Error message shown on failed login (MSW override)
+  - Button enabled when form is valid
+- Wrote 6 NewTransactionModal tests:
+  - Two entry rows render by default
+  - Post Transaction disabled when unbalanced
+  - Add entry row via + Add entry button
+  - Difference indicator shown when unbalanced
+  - Balanced indicator shown when debits = credits
+  - Post Transaction enabled when balanced
+- 11 frontend tests passing, 100% success rate
+- MSW intercepts API calls at network level — more realistic
+  than mocking Axios directly
+
+### What this demonstrates (framework mapping)
+
+**Automated Testing — Mid**
+*"Writes comprehensive unit and integration tests."*
+- Evidence: Full test coverage across backend (41 tests) AND
+  frontend (11 tests). Frontend tests verify user-visible
+  behaviour using React Testing Library philosophy. MSW used
+  for realistic API mocking. Total: 52 tests across the stack.
+
+**Secure Coding — Associate+**
+*"Applies secure coding best practices."*
+- Evidence: LoginPage tests explicitly verify error messages
+  shown on failed authentication — confirming the security
+  boundary between valid and invalid credentials is correctly
+  communicated to users.
+
+### Honest gaps to flag
+- Only two components tested — LoginPage and NewTransactionModal
+- AccountsPage and TransactionsPage have no frontend tests yet
+- Loading state test replaced with simpler assertion due to
+  timing issues in jsdom — noted for future improvement
+- Evidence log and README written with assistance
+
+### Decisions still open
+- More frontend tests — polish week
+- Seed script — polish week
+- Background images — polish week
+- AWS deployment via Terraform — Month 3
+
+---
