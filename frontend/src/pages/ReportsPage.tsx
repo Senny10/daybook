@@ -80,7 +80,15 @@ export default function ReportsPage() {
                     </div>
 
                     {tbLoading && (
-                        <p className="text-sky-400 text-center py-8">Loading...</p>
+                        <div className="animate-pulse space-y-3">
+                            {[1, 2, 3].map(i => (
+                                <div key={i} className="flex justify-between py-2">
+                                    <div className="w-32 h-4 bg-sky-100 rounded"/>
+                                    <div className="w-16 h-4 bg-sky-50 rounded"/>
+                                    <div className="w-16 h-4 bg-sky-50 rounded"/>
+                                </div>
+                            ))}
+                        </div>
                     )}
 
                     {trialBalance && (
@@ -160,7 +168,15 @@ export default function ReportsPage() {
                     </div>
 
                     {plLoading && (
-                        <p className="text-sky-400 text-center py-8">Loading...</p>
+                        <div className="animate-pulse space-y-3">
+                            {[1, 2, 3].map(i => (
+                                <div key={i} className="flex justify-between py-2">
+                                    <div className="w-32 h-4 bg-sky-100 rounded"/>
+                                    <div className="w-16 h-4 bg-sky-50 rounded"/>
+                                    <div className="w-16 h-4 bg-sky-50 rounded"/>
+                                </div>
+                            ))}
+                        </div>
                     )}
 
                     {pandl && (
@@ -215,7 +231,15 @@ export default function ReportsPage() {
                     </div>
 
                     {bsLoading && (
-                        <p className="text-sky-400 text-center py-8">Loading...</p>
+                        <div className="animate-pulse space-y-3">
+                            {[1, 2, 3].map(i => (
+                                <div key={i} className="flex justify-between py-2">
+                                    <div className="w-32 h-4 bg-sky-100 rounded"/>
+                                    <div className="w-16 h-4 bg-sky-50 rounded"/>
+                                    <div className="w-16 h-4 bg-sky-50 rounded"/>
+                                </div>
+                            ))}
+                        </div>
                     )}
 
                     {balanceSheet && (
