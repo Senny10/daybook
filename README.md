@@ -69,7 +69,7 @@ Open `http://localhost:5173`
 
 ## Project Status
 
-🟢 **Active development** — Month 2 of 3
+🟢 **Active development** — Month 3 of 3 (AWS deployment)
 
 ### Done
 - [x] Architecture design and documentation

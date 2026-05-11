@@ -832,3 +832,52 @@ experience contributing to or maintaining them."*
 
 ---
 
+## Day 15 — 2026-05-11
+
+### What I did
+- Wrote ADR-009 documenting configurable registration feature flag
+  pattern — secure by default, explicit opt-in for public mode
+- Implemented paper-cut sky/sun background images:
+  - Login page: sun top-left with clouds (Image 1)
+  - App shell: consistent sky background across all pages
+- Added loading skeletons (animate-pulse) to:
+  - AccountsPage — 3 skeleton cards while loading
+  - TransactionsPage — 3 skeleton cards while loading
+  - ReportsPage — skeleton rows for each tab
+- Updated README Getting Started with real setup instructions
+  including seed data credentials
+- Practiced promotion panel elevator pitch:
+  "Daybook is a full-stack double-entry bookkeeping application
+  I built to demonstrate Mid-level engineering competency..."
+- Completed Month 2 — core application complete
+
+### What this demonstrates (framework mapping)
+
+**Architecture — Mid**
+*"Can design simple architectures for basic projects."*
+- Evidence: ADR-009 completes the ADR collection — 9 ADRs
+  documenting every major decision across backend, frontend,
+  security, infrastructure, and configuration. Consistent
+  pattern throughout the project.
+
+**Working in teams — Associate+**
+*"Manages documentation around and within code."*
+- Evidence: README Getting Started updated with real setup
+  instructions, demo credentials, and seed data documentation.
+  A new developer can clone and run Daybook in under 5 minutes.
+
+### Honest gaps to flag
+- Loading skeletons are functional but could be more
+  pixel-perfect — good enough for a portfolio project
+- ADR-009 written with assistance — pattern was implemented
+  independently but documentation written collaboratively
+- Month 3 (AWS, Terraform, certification) still ahead
+
+### Decisions still open
+- AWS deployment via Terraform — Month 3
+- IAM policies — Month 3
+- AWS Cloud Practitioner exam — Month 3
+- CD pipeline (auto-deploy on merge) — Month 3
+
+---
+
