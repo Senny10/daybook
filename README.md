@@ -35,18 +35,41 @@ Full architecture documentation with diagrams:
 
 ## Getting Started
 
-> 🚧 **Coming soon** — the backend is currently being scaffolded.
-> Setup instructions will be added once the first endpoint is running.
-
 ### Prerequisites
+- JDK 21
+- Docker Desktop
+- Node.js 20+
+- An `.env` file (see `.env.example`)
 
-- JDK 21 (currently using JDK 23)
-- Docker Desktop (for PostgreSQL)
-- Node.js 20+ (for frontend, later)
+### Run the backend
+```bash
+docker compose up -d
+cd backend
+./gradlew bootRun
+```
+
+### Run with seed data
+```bash
+# Add to your .env:
+SPRING_PROFILES_ACTIVE=seed
+```
+
+### Run the frontend
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Open `http://localhost:5173`
+
+### Default demo credentials
+- **Admin:** `admin` / `admin123!`
+- **Bookkeeper:** `bookkeeper` / `book123!`
 
 ## Project Status
 
-🟢 **Active development** — Phase 1 of 3
+🟢 **Active development** — Month 2 of 3
 
 ### Done
 - [x] Architecture design and documentation
@@ -59,18 +82,20 @@ Full architecture documentation with diagrams:
 - [x] Financial reports: Trial Balance, P&L, Balance Sheet
 - [x] Frontend tests: Vitest + RTL + MSW (11 tests, 100% passing)
 - [x] Total: 52 tests across full stack, 100% passing
-- [x] Full stack verified end-to-end in browser
+- [x] GitHub Actions CI: backend + frontend workflows
+- [x] Branch protection: PRs required, both CI checks required
+- [x] First PR merged with 2 checks passing
+- [x] Seed script: 8 accounts, 5 transactions, 2 users
 
 ### In Progress
-- [ ] Seed script for demo data
+- [ ] ADR-009: Configurable registration pattern
 
 ### Planned (Polish Week)
 - [ ] Background images (paper-cut sky/sun design)
 - [ ] Loading skeletons
 - [ ] More frontend tests
-- [ ] ADR-009: Configurable registration pattern
 - [ ] AWS deployment via Terraform
-- [ ] CI/CD pipeline
+- [ ] CI/CD pipeline (CD — auto-deploy on merge)
 - [ ] AWS Cloud Practitioner certification study
 
 ## Architecture Decision Records
@@ -87,6 +112,7 @@ All significant technical decisions are documented as ADRs:
 | [006](docs/adr/006-frontend-stack.md)            | Frontend stack (React + Vite + TypeScript)   | Accepted |
 | [007](docs/adr/007-frontend-state-management.md) | Frontend state management                    | Accepted |
 | [008](docs/adr/008-jwt-storage.md)               | JWT storage strategy                         | Accepted |
+
 ## License
 
 [MIT](LICENSE)

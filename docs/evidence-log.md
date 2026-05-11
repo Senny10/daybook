@@ -760,3 +760,75 @@ in a project."*
 - AWS deployment via Terraform — Month 3
 
 ---
+
+## Day 14 — 2026-05-11
+
+### What I did
+- Set up GitHub Actions CI workflows:
+  - Backend CI: JDK 21 + Gradle cache + 41 tests on every PR
+  - Frontend CI: Node 20 + npm ci + 11 tests on every PR
+  - Both workflows pass in under 2 minutes
+- Configured branch protection via GitHub Rulesets:
+  - Direct pushes to main blocked
+  - Both CI checks required before merge
+  - Verified: direct push rejected with GH013 error
+- Completed first full PR workflow:
+  - Created feature/seed-script branch
+  - Committed DataSeeder.kt
+  - Opened PR #1
+  - Both CI checks passed automatically
+  - Merged to main with "2 checks passed"
+  - Feature branch deleted
+- Built seed script (DataSeeder.kt):
+  - @Profile("seed") — only runs when seed profile active
+  - Idempotent — skips if data already exists
+  - 2 users: admin (ADMIN) and bookkeeper (USER)
+  - 8 accounts covering all 5 account types
+  - 5 transactions telling a complete business story:
+    T1: Owner invests £10,000 (opening capital)
+    T2: Buys office equipment £2,500 (asset purchase)
+    T3: Issues invoice for £3,000 (revenue earned)
+    T4: Customer pays invoice (cash received)
+    T5: Pays rent £1,200 + salaries £4,000 (operating expenses)
+- Fixed CI paths filter issue — removed paths filter so both
+  checks always run on every PR regardless of which files changed
+
+### What this demonstrates (framework mapping)
+
+**IaC / CI-CD — Mid**
+*"Understands the importance of CI/CD pipelines and has
+experience contributing to or maintaining them."*
+- Evidence: Two GitHub Actions workflows running automatically
+  on every PR. Branch protection enforces both checks before
+  merge. First PR merged with "2 checks passed" — screenshot
+  saved. Full workflow demonstrated: branch → commit → PR →
+  CI → merge → delete branch.
+
+**Automated Testing — Mid**
+*"Regularly applies automated testing practices."*
+- Evidence: CI pipeline runs all 52 tests (41 backend + 11
+  frontend) automatically on every PR. Tests are the gate —
+  broken code cannot reach main.
+
+**Architecture — Mid**
+*"Can design simple architectures for basic projects."*
+- Evidence: Seed script uses @Profile pattern — clean
+  separation between demo and production configuration.
+  Idempotent design prevents data duplication.
+
+### Honest gaps to flag
+- Frontend CI takes longer than backend on cold cache —
+  subsequent runs use npm cache and complete in ~17s
+- Paths filter removed from both workflows — both run on
+  every PR regardless of which files changed. Minor
+  inefficiency but necessary for required checks to work
+- Evidence log and README written with assistance
+
+### Decisions still open
+- ADR-009: Configurable registration pattern
+- Polish week: background images, loading skeletons
+- AWS deployment via Terraform — Month 3
+- AWS Cloud Practitioner certification study
+
+---
+
