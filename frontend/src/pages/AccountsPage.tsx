@@ -160,8 +160,18 @@ export default function AccountsPage() {
 
             {/* Accounts List */}
             {isLoading && (
-                <div className="text-center py-12 text-sky-500">
-                    Loading accounts...
+                <div className="space-y-3">
+                    {[1, 2, 3].map(i => (
+                        <div key={i} className="bg-white rounded-2xl p-5 animate-pulse">
+                            <div className="flex items-center gap-4">
+                                <div className="w-16 h-6 bg-sky-100 rounded-full"/>
+                                <div className="space-y-2">
+                                    <div className="w-32 h-4 bg-sky-100 rounded"/>
+                                    <div className="w-48 h-3 bg-sky-50 rounded"/>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             )}
 

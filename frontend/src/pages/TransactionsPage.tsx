@@ -62,8 +62,28 @@ export default function TransactionsPage() {
 
             {/* Loading */}
             {isLoading && (
-                <div className="text-center py-12 text-sky-500">
-                    Loading transactions...
+                <div className="space-y-3">
+                    {[1, 2, 3].map(i => (
+                        <div key={i} className="bg-white rounded-2xl p-5 animate-pulse">
+                            <div className="flex justify-between mb-3">
+                                <div className="space-y-2">
+                                    <div className="w-48 h-4 bg-sky-100 rounded"/>
+                                    <div className="w-32 h-3 bg-sky-50 rounded"/>
+                                </div>
+                                <div className="w-8 h-4 bg-sky-50 rounded"/>
+                            </div>
+                            <div className="border-t border-sky-50 pt-3 space-y-2">
+                                <div className="flex justify-between">
+                                    <div className="w-24 h-3 bg-sky-100 rounded"/>
+                                    <div className="w-16 h-3 bg-sky-50 rounded"/>
+                                </div>
+                                <div className="flex justify-between">
+                                    <div className="w-28 h-3 bg-sky-100 rounded"/>
+                                    <div className="w-16 h-3 bg-sky-50 rounded"/>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             )}
 
