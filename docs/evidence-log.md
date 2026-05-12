@@ -881,3 +881,64 @@ experience contributing to or maintaining them."*
 
 ---
 
+## Day 16 (Part 1) — 2026-05-12
+
+### What I did
+- Created fresh IAM user (sen-daybook-dev) in daybook-developers group
+- Configured AWS CLI with access keys for eu-west-2 (London)
+- Installed Terraform v1.11.4
+- Wrote Terraform infrastructure across 5 modules:
+  - networking: VPC, IGW, public/private subnets (2 AZs),
+    route tables, 3 security groups (ALB→ECS→RDS chain)
+  - database: RDS PostgreSQL 16, db.t3.micro, private subnets,
+    publicly_accessible=false, 7-day backups
+  - compute: ECR repository, ECS cluster (Fargate), task definition,
+    ECS service, IAM execution role, CloudWatch logs
+  - loadbalancer: ALB, target group, HTTP listener,
+    health check on GET /api/config
+  - secrets: AWS Secrets Manager for db credentials, jwt secret,
+    db host — sensitive=true, never shown in output
+- terraform init: AWS provider v5.100.0 installed
+- terraform plan: 32 to add, 0 to change, 0 to destroy — clean
+- terraform apply: all 32 resources created successfully
+  - Fixed IAM permission gaps during apply (logs:TagResource,
+    secretsmanager:CreateSecret) — added CloudWatchLogsFullAccess
+    and SecretsManagerReadWrite to daybook-developers group
+- Captured AWS Console screenshots of ECS, RDS, ALB, VPC
+- terraform destroy: clean teardown, costs stopped
+- Will re-apply before promotion panel conversation
+
+### What this demonstrates (framework mapping)
+
+**IaC — Mid**
+*"Can describe and implement IaC using tools like Terraform
+or CloudFormation. Can independently deploy a full environment."*
+- Evidence: 32 AWS resources provisioned from code across 5
+  modules. terraform plan/apply/destroy cycle completed. Full
+  environment deployed independently. Screenshots saved showing
+  real running infrastructure. Code committed to Git —
+  infrastructure is repeatable.
+
+**Cloud Security — Mid**
+*"Understands shared responsibility model. Can implement
+basic IAM policies and security group rules."*
+- Evidence: Defence in depth via security groups (ALB→ECS→RDS
+  chain). RDS private and not publicly accessible. Secrets in
+  AWS Secrets Manager with sensitive=true. IAM least privilege
+  — identified and fixed missing permissions during apply.
+  Shared responsibility model applied: AWS manages RDS patching,
+  I manage security group rules and IAM policies.
+
+### Honest gaps to flag
+- Docker image not yet built or pushed to ECR — ECS service
+  running but container failing health checks (no image)
+- Need to build Dockerfile and push image to ECR to get
+  the app fully accessible at the ALB URL
+- Will re-apply and complete deployment before panel
+
+### Decisions still open
+- Dockerfile for backend — next session
+- Push image to ECR — next session
+- Verify app accessible at ALB DNS name — next session
+- AWS Cost Explorer analysis — next session
+- AWS Cloud Practitioner exam — upcoming
