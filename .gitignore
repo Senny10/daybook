@@ -42,3 +42,9 @@ replay_pid*
 .env.local
 .env.production
 .env.staging
+
+# Terraform files
+infrastructure/terraform.tfvars
+infrastructure/.terraform/
+infrastructure/*.tfstate
+infrastructure/*.tfstate.backup
