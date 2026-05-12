@@ -71,32 +71,21 @@ Open `http://localhost:5173`
 
 🟢 **Active development** — Month 3 of 3 (AWS deployment)
 
-### Done
-- [x] Architecture design and documentation
-- [x] ADR-001 through ADR-008
-- [x] Full backend: Spring Boot + PostgreSQL + Spring Security
-- [x] 41 backend tests — 100% passing
-- [x] JWT authentication + RBAC (backend + frontend)
-- [x] React frontend: Login, Accounts, Transactions, Reports pages
-- [x] New Transaction modal with live double-entry balance indicator
-- [x] Financial reports: Trial Balance, P&L, Balance Sheet
-- [x] Frontend tests: Vitest + RTL + MSW (11 tests, 100% passing)
-- [x] Total: 52 tests across full stack, 100% passing
-- [x] GitHub Actions CI: backend + frontend workflows
-- [x] Branch protection: PRs required, both CI checks required
-- [x] First PR merged with 2 checks passing
-- [x] Seed script: 8 accounts, 5 transactions, 2 users
+#### Done
+- [x] Terraform infrastructure: 32 AWS resources across 5 modules
+- [x] VPC, RDS PostgreSQL 16, ECS Fargate, ALB, ECR, Secrets Manager
+- [x] Defence in depth security groups (ALB→ECS→RDS chain)
+- [x] terraform plan/apply/destroy cycle completed
+- [x] AWS Console screenshots saved as IaC evidence
 
 ### In Progress
-- [ ] ADR-009: Configurable registration pattern
+- [ ] Dockerfile + Docker image build
+- [ ] Push image to ECR
+- [ ] App accessible at ALB DNS name
+- [ ] AWS Cost Explorer analysis
 
-### Planned (Polish Week)
-- [ ] Background images (paper-cut sky/sun design)
-- [ ] Loading skeletons
-- [ ] More frontend tests
-- [ ] AWS deployment via Terraform
-- [ ] CI/CD pipeline (CD — auto-deploy on merge)
-- [ ] AWS Cloud Practitioner certification study
+### Planned
+- [ ] AWS Cloud Practitioner certification study + exam
 
 ## Architecture Decision Records
 
