@@ -17,7 +17,7 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/api': {
-        target: 'http://localhost:8080',
+        target: 'http://daybook-alb-1144852757.eu-west-2.elb.amazonaws.com',
         changeOrigin: true,
       },
     },

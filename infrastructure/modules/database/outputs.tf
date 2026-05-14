@@ -1,6 +1,6 @@
 output "db_endpoint" {
   description = "RDS endpoint for application connection"
-  value       = aws_db_instance.main.endpoint
+  value       = aws_db_instance.main.address
 }
 
 output "db_name" {
