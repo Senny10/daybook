@@ -71,21 +71,22 @@ Open `http://localhost:5173`
 
 🟢 **Active development** — Month 3 of 3 (AWS deployment)
 
-#### Done
-- [x] Terraform infrastructure: 32 AWS resources across 5 modules
-- [x] VPC, RDS PostgreSQL 16, ECS Fargate, ALB, ECR, Secrets Manager
-- [x] Defence in depth security groups (ALB→ECS→RDS chain)
+### Done
+- [x] Terraform infrastructure: 34 AWS resources across 5 modules
+- [x] Dockerfile: multi-stage build, non-root user, linux/amd64
+- [x] Docker image pushed to ECR
+- [x] Full stack deployed to AWS: ECS + RDS + ALB
+- [x] App verified working at ALB DNS name (login, accounts, reports)
+- [x] 6 deployment issues debugged and resolved independently
 - [x] terraform plan/apply/destroy cycle completed
-- [x] AWS Console screenshots saved as IaC evidence
 
 ### In Progress
-- [ ] Dockerfile + Docker image build
-- [ ] Push image to ECR
-- [ ] App accessible at ALB DNS name
 - [ ] AWS Cost Explorer analysis
+- [ ] AWS Cloud Practitioner certification study + exam
 
 ### Planned
-- [ ] AWS Cloud Practitioner certification study + exam
+- [ ] Frontend deployment to S3/CloudFront (stretch goal)
+- [ ] Concepts document (final session)
 
 ## Architecture Decision Records
 
@@ -101,6 +102,7 @@ All significant technical decisions are documented as ADRs:
 | [006](docs/adr/006-frontend-stack.md)            | Frontend stack (React + Vite + TypeScript)   | Accepted |
 | [007](docs/adr/007-frontend-state-management.md) | Frontend state management                    | Accepted |
 | [008](docs/adr/008-jwt-storage.md)               | JWT storage strategy                         | Accepted |
+| [009](docs/adr/009-configurable-registration.md) | Configurable registration feature flag | Accepted |
 
 ## License
 

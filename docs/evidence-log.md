@@ -942,3 +942,73 @@ basic IAM policies and security group rules."*
 - Verify app accessible at ALB DNS name — next session
 - AWS Cost Explorer analysis — next session
 - AWS Cloud Practitioner exam — upcoming
+
+----
+
+## Day 17-18 — 2026-05-13 to 2026-05-14
+
+### What I did
+- Wrote Dockerfile for Spring Boot backend:
+  - Multi-stage build: JDK 21 builder + JRE runner
+  - eclipse-temurin:21 Alpine base (minimal image size)
+  - Non-root daybook user for security
+  - Layer caching: dependencies copied before source code
+  - Built for linux/amd64 (required for ECS Fargate on Apple Silicon)
+- Fixed application.properties: localhost → ${DB_HOST} for ECS
+- Pushed Docker image to ECR
+- Debugged and resolved multiple deployment issues:
+  1. ARM64 vs AMD64 architecture mismatch — rebuilt with --platform linux/amd64
+  2. Private subnets blocking ECR/Secrets Manager — moved ECS to public subnets
+  3. Missing IAM permissions — added secretsmanager:GetSecretValue and ECR read
+  4. Secrets Manager VPC connectivity — switched to environment variables
+  5. Spring Boot 98s startup — added health_check_grace_period_seconds=120
+  6. JDBC URL hardcoded localhost — fixed to use ${DB_HOST} environment variable
+- Deployed Daybook to AWS successfully:
+  - API responding at ALB DNS name
+  - Login, accounts, transactions, reports all working
+  - Seed data loaded (8 accounts, 5 transactions, 2 users)
+  - Verified with curl and browser screenshots
+- terraform destroy — clean teardown, costs stopped
+- Added force_delete=true to ECR to prevent destroy failures
+
+### What this demonstrates (framework mapping)
+
+**IaC — Mid**
+*"Can describe and implement IaC using tools like Terraform.
+Can independently deploy a full environment."*
+- Evidence: Full stack deployed to AWS via Terraform. 34 resources
+  provisioned. Real debugging cycle — identified and fixed 6 separate
+  deployment issues. Screenshots saved showing ECS running, RDS
+  available, ALB active, app working in browser. Terraform
+  plan/apply/destroy cycle completed cleanly.
+
+**Cloud Security — Mid**
+*"Understands shared responsibility model. Implements IAM
+policies and security group rules."*
+- Evidence: IAM execution role with least-privilege policies
+  (secretsmanager:GetSecretValue, ECR read-only). Defence in depth:
+  ALB→ECS→RDS security group chain. RDS not publicly accessible.
+  Non-root Docker user. Identified missing IAM permissions during
+  deployment and fixed independently.
+
+**Problem Solving — Mid**
+*"Independently debugs and resolves technical issues."*
+- Evidence: 6 distinct deployment issues diagnosed and resolved
+  independently using CloudWatch logs, AWS CLI, and Terraform state.
+  Each error led to a concrete fix. No issues were left unresolved.
+
+### Honest gaps to flag
+- Frontend not deployed to AWS (still served locally via Vite proxy)
+  — S3/CloudFront deployment planned as stretch goal
+- ECS credentials passed as environment variables rather than
+  Secrets Manager due to VPC connectivity issue. In production
+  would use VPC endpoints for Secrets Manager. Trade-off documented.
+- Spring Boot startup time (98s) is slow for Fargate — would
+  investigate Spring AOT compilation or GraalVM native image
+  for production to reduce cold start time
+- Evidence log and README written with assistance
+
+### Decisions still open
+- AWS Cost Explorer analysis — next session
+- AWS Cloud Practitioner exam prep — upcoming
+- Concepts document — final session
