@@ -63,20 +63,21 @@ module "loadbalancer" {
 module "compute" {
   source = "./modules/compute"
 
-  app_name               = var.app_name
-  environment            = var.environment
-  aws_region             = var.aws_region
-  backend_image          = var.backend_image
-  container_port         = var.container_port
-  task_cpu               = var.task_cpu
-  task_memory            = var.task_memory
-  private_subnet_ids     = module.networking.private_subnet_ids
-  ecs_security_group_id  = module.networking.ecs_security_group_id
-  target_group_arn       = module.loadbalancer.target_group_arn
-  alb_listener_arn       = module.loadbalancer.listener_arn
-  db_name                = var.db_name
-  db_username_secret_arn = module.secrets.db_username_secret_arn
-  db_password_secret_arn = module.secrets.db_password_secret_arn
-  jwt_secret_arn         = module.secrets.jwt_secret_arn
-  db_host_secret_arn     = module.secrets.db_host_secret_arn
+  app_name              = var.app_name
+  environment           = var.environment
+  aws_region            = var.aws_region
+  backend_image         = var.backend_image
+  container_port        = var.container_port
+  task_cpu              = var.task_cpu
+  task_memory           = var.task_memory
+  public_subnet_ids     = module.networking.public_subnet_ids
+  private_subnet_ids    = module.networking.private_subnet_ids
+  ecs_security_group_id = module.networking.ecs_security_group_id
+  target_group_arn      = module.loadbalancer.target_group_arn
+  alb_listener_arn      = module.loadbalancer.listener_arn
+  db_name               = var.db_name
+  db_host               = module.database.db_endpoint
+  db_username           = var.db_username
+  db_password           = var.db_password
+  jwt_secret            = var.jwt_secret
 }

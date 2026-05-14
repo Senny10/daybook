@@ -1,4 +1,3 @@
-
 # ECR repository — stores our Docker images
 resource "aws_ecr_repository" "backend" {
   name                 = "${var.app_name}-backend"
@@ -51,6 +50,31 @@ resource "aws_iam_role_policy_attachment" "ecs_execution" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
+# Allow ECS to read secrets from Secrets Manager
+resource "aws_iam_role_policy" "ecs_secrets" {
+  name = "${var.app_name}-ecs-secrets-policy"
+  role = aws_iam_role.ecs_execution.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "secretsmanager:GetSecretValue"
+        ]
+        Resource = "arn:aws:secretsmanager:eu-west-2:*:secret:${var.app_name}/*"
+      }
+    ]
+  })
+}
+
+# Allow ECS to pull images from ECR
+resource "aws_iam_role_policy_attachment" "ecs_ecr" {
+  role       = aws_iam_role.ecs_execution.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+}
+
 # ECS Task Definition — describes our container
 resource "aws_ecs_task_definition" "backend" {
   family                   = "${var.app_name}-backend"
@@ -70,29 +94,15 @@ resource "aws_ecs_task_definition" "backend" {
     }]
 
     environment = [
-      { name = "DB_NAME",              value = var.db_name },
-      { name = "DB_PORT",              value = "5432" },
-      { name = "REGISTRATION_PUBLIC",  value = "true" },
-      { name = "JWT_EXPIRATION",       value = "86400000" }
-    ]
-
-    secrets = [
-      {
-        name      = "DB_USER"
-        valueFrom = var.db_username_secret_arn
-      },
-      {
-        name      = "DB_PASSWORD"
-        valueFrom = var.db_password_secret_arn
-      },
-      {
-        name      = "JWT_SECRET"
-        valueFrom = var.jwt_secret_arn
-      },
-      {
-        name      = "DB_HOST"
-        valueFrom = var.db_host_secret_arn
-      }
+      { name = "DB_NAME",                value = var.db_name },
+      { name = "DB_PORT",                value = "5432" },
+      { name = "DB_HOST",                value = var.db_host },
+      { name = "DB_USER",                value = var.db_username },
+      { name = "DB_PASSWORD",            value = var.db_password },
+      { name = "JWT_SECRET",             value = var.jwt_secret },
+      { name = "REGISTRATION_PUBLIC",    value = "true" },
+      { name = "JWT_EXPIRATION",         value = "86400000" },
+      { name = "SPRING_PROFILES_ACTIVE", value = "seed" }
     ]
 
     logConfiguration = {
@@ -129,11 +139,12 @@ resource "aws_ecs_service" "backend" {
   task_definition = aws_ecs_task_definition.backend.arn
   desired_count   = 1
   launch_type     = "FARGATE"
+  health_check_grace_period_seconds = 120
 
   network_configuration {
-    subnets          = var.private_subnet_ids
+    subnets          = var.public_subnet_ids
     security_groups  = [var.ecs_security_group_id]
-    assign_public_ip = false
+    assign_public_ip = true
   }
 
   load_balancer {
