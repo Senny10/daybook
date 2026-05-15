@@ -23,7 +23,7 @@ software engineers never touch.
 | Frontend       | React                     |
 | Database       | PostgreSQL                |
 | Infrastructure | AWS (ECS, RDS), Terraform |
-| CI/CD          | TBD                       |
+| CI/CD          | GitHub Actions            |
 
 ## Architecture
 
@@ -69,24 +69,29 @@ Open `http://localhost:5173`
 
 ## Project Status
 
-🟢 **Active development** — Month 3 of 3 (AWS deployment)
+🟢 **Complete** — All criteria evidenced
 
 ### Done
+- [x] Architecture design: 9 ADRs, layered architecture documentation
+- [x] Backend: Kotlin Spring Boot + PostgreSQL, 41 tests passing
+- [x] JWT authentication + RBAC (backend + frontend)
+- [x] Frontend: React + TypeScript, 11 tests passing
+- [x] Total: 52 tests across full stack, 100% passing
+- [x] GitHub Actions CI: both workflows on every PR
+- [x] Branch protection: PRs required, both checks must pass
+- [x] Seed script: 8 accounts, 5 transactions, 2 users
 - [x] Terraform infrastructure: 34 AWS resources across 5 modules
 - [x] Dockerfile: multi-stage build, non-root user, linux/amd64
-- [x] Docker image pushed to ECR
 - [x] Full stack deployed to AWS: ECS + RDS + ALB
-- [x] App verified working at ALB DNS name (login, accounts, reports)
 - [x] 6 deployment issues debugged and resolved independently
-- [x] terraform plan/apply/destroy cycle completed
-
-### In Progress
-- [ ] AWS Cost Explorer analysis
-- [ ] AWS Cloud Practitioner certification study + exam
+- [x] AWS Cost Explorer: $0.00 total spend confirmed
+- [x] Zero-spend budget alert configured
+- [x] Cost analysis: docs/cost-analysis.md
 
 ### Planned
+- [ ] AWS Cloud Practitioner certification
 - [ ] Frontend deployment to S3/CloudFront (stretch goal)
-- [ ] Concepts document (final session)
+- [ ] Re-apply infrastructure before panel conversation
 
 ## Architecture Decision Records
 
