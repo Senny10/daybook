@@ -1012,3 +1012,47 @@ policies and security group rules."*
 - AWS Cost Explorer analysis — next session
 - AWS Cloud Practitioner exam prep — upcoming
 - Concepts document — final session
+
+---
+
+## Day 19 — 2026-05-15
+
+### What I did
+- Set up AWS Cost Explorer — confirmed $0.00 total spend
+- Created zero-spend budget alert via AWS Budgets —
+  email notification triggers if any charge appears
+- Added AWSBudgetsActionsWithAWSResourceControlPolicy and
+  Billing policies to daybook-developers IAM group
+- Wrote docs/cost-analysis.md documenting:
+  - Estimated costs per service when running (~£40/month)
+  - Deploy-on-demand strategy keeping actual spend at $0.00
+  - Cost optimisation decisions (instance sizing, retention,
+    single AZ, skip_final_snapshot)
+  - Production cost considerations (NAT Gateway, multi-AZ,
+    HTTPS, S3/CloudFront)
+- Studied and consolidated all panel-ready concept answers
+  from throughout the project
+
+### What this demonstrates (framework mapping)
+
+**Cloud Cost Management — Mid**
+*"Understands cloud cost implications of architectural decisions."*
+- Evidence: AWS Cost Explorer configured and monitored throughout
+  project. Zero-spend budget alert active. Cost analysis document
+  connects every architectural decision to its cost implication —
+  public vs private subnets (NAT Gateway cost), single vs multi-AZ
+  (availability vs cost), log retention period (observability vs
+  storage). Screenshots saved showing $0.00 total spend.
+
+**Communication — Mid**
+*"Can clearly explain technical decisions to non-technical stakeholders."*
+- Evidence: Cost analysis document written to be readable by
+  a non-technical audience — explains trade-offs in business
+  terms, not just technical ones.
+
+### Honest gaps to flag
+- Budget alert requires IAM permissions not in original setup —
+  added during this session (AWSBudgetsActionsWithAWSResourceControlPolicy)
+- Cost Explorer shows $0.00 because of deploy-on-demand strategy —
+  not because costs are zero when running
+- Evidence log and README written with assistance
