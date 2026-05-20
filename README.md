@@ -69,7 +69,7 @@ Open `http://localhost:5173`
 
 ## Project Status
 
-🟢 **Complete** — All criteria evidenced
+🟢 **Complete** — Full stack live on AWS
 
 ### Done
 - [x] Architecture design: 9 ADRs, layered architecture documentation
@@ -80,17 +80,16 @@ Open `http://localhost:5173`
 - [x] GitHub Actions CI: both workflows on every PR
 - [x] Branch protection: PRs required, both checks must pass
 - [x] Seed script: 8 accounts, 5 transactions, 2 users
-- [x] Terraform infrastructure: 34 AWS resources across 5 modules
+- [x] Terraform infrastructure: 39 AWS resources across 6 modules
 - [x] Dockerfile: multi-stage build, non-root user, linux/amd64
-- [x] Full stack deployed to AWS: ECS + RDS + ALB
-- [x] 6 deployment issues debugged and resolved independently
+- [x] Full stack deployed to AWS: ECS + RDS + ALB + S3 + CloudFront
+- [x] Frontend live at CloudFront URL (HTTPS, CDN-served)
+- [x] Trial Balance: £23,700 debits = £23,700 credits ✓ Balanced
 - [x] AWS Cost Explorer: $0.00 total spend confirmed
 - [x] Zero-spend budget alert configured
-- [x] Cost analysis: docs/cost-analysis.md
 
 ### Planned
-- [ ] AWS Cloud Practitioner certification
-- [ ] Frontend deployment to S3/CloudFront (stretch goal)
+- [ ] AWS Cloud Practitioner certification (target: June 8th)
 - [ ] Re-apply infrastructure before panel conversation
 
 ## Architecture Decision Records

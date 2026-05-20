@@ -1056,3 +1056,62 @@ policies and security group rules."*
 - Cost Explorer shows $0.00 because of deploy-on-demand strategy —
   not because costs are zero when running
 - Evidence log and README written with assistance
+
+---
+
+## Day 20 — 2026-05-20
+
+### What I did
+- Built React production bundle: npm run build → dist/ (7 files, 425KB JS)
+- Fixed vite.config.ts: import from vitest/config to fix TypeScript
+  build errors with test configuration
+- Created Terraform frontend module (S3 + CloudFront):
+  - S3 bucket: daybook-frontend-production (private, no public access)
+  - Origin Access Control: CloudFront reads S3 privately via OAC
+  - CloudFront distribution with two origins:
+    - S3: serves static files (HTML/JS/CSS/images)
+    - ALB: forwards /api/* requests to Spring Boot backend
+  - SPA routing: 403/404 return index.html for React Router
+  - HTTPS enforced: redirect-to-https
+  - PriceClass_100: Europe + North America edge locations
+- Consolidated 10 IAM managed policies into one inline policy
+  (daybook-full-access) to stay within AWS 10-policy-per-group limit
+- Uploaded React build to S3: aws s3 sync dist/ s3://daybook-frontend-production
+- Verified full application working at CloudFront URL:
+  https://d2xjmpbr2m2035.cloudfront.net
+  - Login page: paper-cut sky design, HTTPS ✅
+  - Accounts page: 8 seeded accounts from RDS ✅
+  - Transactions page: 5 transactions with correct entries ✅
+  - Reports: Trial Balance £23,700 debits = £23,700 credits ✅
+- Screenshots saved — complete frontend + backend on AWS
+- terraform destroy: clean teardown, costs stopped
+
+### What this demonstrates (framework mapping)
+
+**IaC — Mid**
+*"Can describe and implement IaC using tools like Terraform.
+Can independently deploy a full environment."*
+- Evidence: Full stack deployed — frontend (S3 + CloudFront) AND
+  backend (ECS + RDS + ALB) — all provisioned via Terraform.
+  39 AWS resources total. Real public URL serving real data.
+
+**Architecture — Mid**
+*"Can design simple architectures for basic projects."*
+- Evidence: CloudFront acts as the single entry point for the
+  entire application — routing static files to S3 and API calls
+  to the ALB. This is the standard production pattern for
+  decoupled frontend/backend applications.
+
+**Cloud Security — Mid**
+*"Implements basic security controls."*
+- Evidence: S3 bucket has no public access. Files only accessible
+  via CloudFront using Origin Access Control (OAC). HTTPS enforced
+  via CloudFront redirect. Users can never access S3 directly.
+
+### Honest gaps to flag
+- CloudFront URL is auto-generated (d2xjmpbr2m2035.cloudfront.net)
+  — a real production deployment would use a custom domain via
+  Route 53 and AWS Certificate Manager
+- No automated deployment pipeline for frontend — manual
+  aws s3 sync after npm run build. A CD pipeline would automate this
+- Evidence log and README written with assistance
