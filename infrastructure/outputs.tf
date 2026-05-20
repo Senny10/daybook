@@ -12,3 +12,13 @@ output "ecs_cluster_name" {
   description = "ECS cluster name"
   value       = module.compute.ecs_cluster_name
 }
+
+output "cloudfront_domain_name" {
+  description = "Frontend URL — open this in your browser"
+  value       = module.frontend.cloudfront_domain_name
+}
+
+output "s3_bucket_name" {
+  description = "S3 bucket for frontend files"
+  value       = module.frontend.s3_bucket_name
+}

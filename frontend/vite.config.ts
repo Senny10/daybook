@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import path from 'path'
@@ -17,7 +17,7 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/api': {
-        target: 'http://daybook-alb-1144852757.eu-west-2.elb.amazonaws.com',
+        target: 'http://daybook-alb-2078726956.eu-west-2.elb.amazonaws.com',
         changeOrigin: true,
       },
     },

@@ -81,3 +81,12 @@ module "compute" {
   db_password           = var.db_password
   jwt_secret            = var.jwt_secret
 }
+
+# Frontend (S3 + CloudFront)
+module "frontend" {
+  source = "./modules/frontend"
+
+  app_name     = var.app_name
+  environment  = var.environment
+  alb_dns_name = module.loadbalancer.alb_dns_name
+}
