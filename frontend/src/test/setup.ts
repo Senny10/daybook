@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom'
 import { server } from './server'
-import { beforeAll, afterEach, afterAll, vi } from 'vitest'
+import { beforeAll, afterEach, afterAll } from 'vitest'
 
 // Mock localStorage
 const localStorageMock = (() => {
