@@ -27,7 +27,7 @@ describe('LoginPage', () => {
     it('renders the login form', () => {
         renderLoginPage()
 
-        expect(screen.getByText('Daybook 🌞')).toBeInTheDocument()
+        expect(screen.getByText('Daybook')).toBeInTheDocument()
         expect(screen.getByPlaceholderText('Enter your username'))
             .toBeInTheDocument()
         expect(screen.getByPlaceholderText('Enter your password'))
