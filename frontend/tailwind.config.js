@@ -31,7 +31,8 @@ export default {
                 },
             },
             fontFamily: {
-                sans: ['Inter', 'system-ui', 'sans-serif'],
+                sans: ['Hanken Grotesk', 'Inter', 'system-ui', 'sans-serif'],
+                serif: ['Newsreader', 'serif'],
             },
             boxShadow: {
                 'sky-sm': '0 1px 3px rgba(50, 150, 216, 0.15)',

@@ -29,7 +29,7 @@ class DataSeeder(
 ) : CommandLineRunner {
 
     override fun run(vararg args: String?) {
-        if (accountRepository.count() > 0) {
+        if (userRepository.count() > 0) {
             println("Seed data already exists — skipping.")
             return
         }

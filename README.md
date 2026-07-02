@@ -45,13 +45,7 @@ Full architecture documentation with diagrams:
 ```bash
 docker compose up -d
 cd backend
-./gradlew bootRun
-```
-
-### Run with seed data
-```bash
-# Add to your .env:
-SPRING_PROFILES_ACTIVE=seed
+SPRING_PROFILES_ACTIVE=seed ./gradlew bootRun 
 ```
 
 ### Run the frontend

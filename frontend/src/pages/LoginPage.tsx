@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useAuth } from '../contexts/AuthContext'
 import { login as loginApi } from '../api/auth'
+import DaybookSky from '../components/sky/DaybookSky'
 
 const loginSchema = z.object({
     username: z.string().min(1, 'Username is required'),
@@ -49,28 +50,22 @@ export default function LoginPage() {
     }
 
     return (
-        <div
-            className="min-h-screen flex items-center justify-center p-4"
-            style={{
-                backgroundImage: 'url(/login-bg.png)',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-            }}
-        >
-            <div className="w-full max-w-md">
+        <DaybookSky>
+            <div className="w-full max-w-md p-4">
 
-                {/* Header */}
-                <div className="text-center mb-8">
-                    <h1 className="text-4xl font-bold text-sky-900 mb-2">
-                        Daybook 🌞
-                    </h1>
-                    <p className="text-sky-600">
-                        Double-entry bookkeeping, brought to light.
-                    </p>
-                </div>
+
 
                 {/* Card */}
                 <div className="bg-white rounded-2xl shadow-sky-lg p-8">
+                    {/* Header */}
+                    <div className="text-center mb-8">
+                        <h1 className="font-serif text-3xl font-medium text-sky-900 tracking-tight">
+                            Daybook
+                        </h1>
+                        <p className="text-sky-600 text-sm mt-2">
+                            Double-entry bookkeeping, brought to light.
+                        </p>
+                    </div>
                     <h2 className="text-xl font-semibold text-sky-900 mb-6">
                         Sign in to your account
                     </h2>
@@ -154,6 +149,6 @@ export default function LoginPage() {
                 </p>
 
             </div>
-        </div>
+        </DaybookSky>
     )
 }

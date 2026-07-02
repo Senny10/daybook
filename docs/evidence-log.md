@@ -1115,3 +1115,69 @@ Can independently deploy a full environment."*
 - No automated deployment pipeline for frontend — manual
   aws s3 sync after npm run build. A CD pipeline would automate this
 - Evidence log and README written with assistance
+
+
+## Day 21 — 2026-07-02
+
+### What I did
+- Debugged and fixed a real local development environment bug found
+  while testing the redesigned frontend post-certification.
+- Root cause: DataSeeder's guard clause checked
+  `accountRepository.count() > 0` to decide whether to run the entire
+  seed script. A prior interrupted/partial local run had left the
+  `accounts` table populated (8 rows) while `users` remained empty —
+  the guard incorrectly treated this as "already fully seeded" and
+  skipped creating the admin/bookkeeper users entirely, silently
+  blocking all local login.
+- Diagnosed methodically rather than guessing: confirmed backend
+  started successfully, confirmed Postgres was running, confirmed
+  the seed profile was active, then used psql directly against the
+  container to inspect table contents (`accounts` had 8 rows, `users`
+  had 0), which isolated the guard clause as the actual cause.
+- Fix: changed the guard to check `userRepository.count() > 0`
+  instead of `accountRepository.count() > 0` — ties the "already
+  seeded" check to the table that actually gates authentication,
+  rather than a table that could theoretically be populated by
+  other means without users ever being created.
+- Verified the fix two ways: a full wipe + fresh seed correctly
+  populated all four tables (accounts, users, transactions, entries),
+  and a second run against the now-seeded database correctly
+  skipped re-seeding without re-triggering the original bug.
+- Also diagnosed and fixed a separate, unrelated local dev issue in
+  the same session: Vite's dev proxy (`vite.config.ts`) was still
+  pointing at a since-destroyed AWS ALB DNS name from earlier
+  deployment work, causing all frontend API calls (including login)
+  to silently fail against a dead endpoint. Backend was confirmed
+  working independently via curl before tracing the bug to the
+  frontend proxy config. Reset to `http://localhost:8080` for local
+  development.
+
+### What this demonstrates (framework mapping)
+
+**Problem Solving — Mid**
+*"Independently debugs and resolves technical issues."*
+- Evidence: Two distinct local environment bugs diagnosed
+  independently in one session, both via systematic elimination
+  (checking backend startup, database state, then proxy config)
+  rather than guesswork. Neither fix was a workaround — both
+  addressed root cause.
+
+**Secure Coding / Code Quality — Mid**
+*"Reviews own code for correctness, not just functionality."*
+- Evidence: Identified that the seeder's guard clause was fragile
+  by design (gating an entire multi-table seed operation on a
+  single unrelated table's row count), and corrected it to check
+  the table that actually matters for the behaviour being guarded
+  against, rather than just patching the immediate symptom.
+
+### Honest gaps to flag
+- The seeder still seeds all tables in one linear, non-idempotent
+  block. A more robust long-term design would check each table
+  independently before seeding it. Not implemented today — judged
+  as unnecessary complexity for a demo/seed script in local dev,
+  but worth revisiting if the seed script grows more complex.
+- The hardcoded ALB URL in `vite.config.ts` is a recurring pattern
+  risk — every switch between local dev and a live AWS deployment
+  requires manually editing and remembering to revert this file.
+  Flagged for a future improvement (environment variable via
+  `.env.local` / `VITE_API_URL`) but not implemented today.
